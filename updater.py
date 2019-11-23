@@ -2,19 +2,27 @@ import subprocess
 
 fetchCommand = "git fetch --all"
 diffCommand = "git diff origin/master"
+resetCommand = "git reset --hard origin/master"
+copyCommand = "sudo cp /home/pi/personalWebsite/. /var/www/html/"
 
-fetchProcess = subprocess.run(fetchCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+fetchProcess = subprocess.run(fetchCommand.split(), cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE, check=True,
                               universal_newlines=True)
-foutput = fetchProcess.stdout
-doutput = ""
+diffProcess = subprocess.run(diffCommand.split(), cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE, check=True,
+                             universal_newlines=True)
 
-if len(foutput) != 16:
-    diffProcess = subprocess.run(diffCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+foutput = fetchProcess.stdout
+doutput = diffProcess.stdout
+
+if len(doutput) != 0:
+    print("need to update")
+    resetProcess = subprocess.run(resetCommand.split(), cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, check=True,
+                                  universal_newlines=True)
+    routput = resetProcess.stdout
+    copyProcess = subprocess.run(copyCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
                                  universal_newlines=True)
-    doutput = diffProcess.stdout
-    if len(doutput) != 0:
-        print("need to update")
-    else:
-        print("no differences found")
+    coutput = copyProcess.stdout
 else:
-    print("no update needed")
+    print("no differences found")
