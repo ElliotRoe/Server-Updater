@@ -1,14 +1,20 @@
 import subprocess
 
-bashCommand = "git log"
+fetchCommand = "git fetch --all"
+diffCommand = "git diff origin/master"
 
-process = subprocess.run(bashCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
-                         universal_newlines=True)
-output = process.stdout
+fetchProcess = subprocess.run(fetchCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+                              universal_newlines=True)
+foutput = fetchProcess.stdout
+doutput = ""
 
-keyStart = output.find(" ") + 1
-keyEnd = output.find("\n")
-key = output[keyStart:keyEnd];
-print(key)
-print(output)
-print(key == "29ca5d46f179b767fd7be91cd5af77f56b5f83c9")
+if len(foutput) != 16:
+    diffProcess = subprocess.run(diffCommand.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+                                 universal_newlines=True)
+    doutput = diffProcess.stdout
+    if len(doutput) != 0:
+        print("need to update")
+    else:
+        print("no differences found")
+else:
+    print("no update needed")
