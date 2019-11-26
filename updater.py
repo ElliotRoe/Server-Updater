@@ -3,7 +3,7 @@ import time
 
 fetchCommand = "git fetch origin"
 diffCommand = "git diff origin/master"
-resetCommand = "git reset --hard origin/master && sudo cp /home/pi/personalWebsite/. /var/www/html/"
+resetCommand = "git reset --hard origin/master && sudo cp -a /home/pi/personalWebsite/. /var/www/html/"
 
 while 1 == 1:
     fetchProcess = subprocess.run(fetchCommand.split(), cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
