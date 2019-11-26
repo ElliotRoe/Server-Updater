@@ -18,9 +18,9 @@ while 1 == 1:
     doutput = diffProcess.stdout
     if len(doutput) != 0:
         print("need to update")
-        resetProcess = subprocess.run(resetCommand.split(), cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
+        resetProcess = subprocess.run(resetCommand, cwd=r'/home/pi/personalWebsite', stdout=subprocess.PIPE,
                                       stderr=subprocess.PIPE, check=True,
-                                      universal_newlines=True)
+                                      universal_newlines=True, shell=True)
         time.sleep(5)
     else:
         print("no differences found")
